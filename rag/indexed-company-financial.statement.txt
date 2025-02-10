@@ -1,0 +1,155 @@
+
+### Doc: 0, pages:[null,null]
+custom_keywords: [html, rag-test]
+source: company-financial-statement.html
+
+Company Financial Statement
+
+    Summary
+
+    The company shows strong financial health with $2,000,000 in total revenue, reflecting a 14% growth from last
+        year, of which 60% is generated from product sales. Expenses, mainly from the cost of goods sold, have increased
+        by 2%, totaling $1,200,000. This results in a projected profit of $800,000, representing a 9% growth in profit.
+        The 40% profit margin highlights robust operational performance. The balance sheet shows $500,000 in cash and
+        $1,000,000 in property, plant, and equipment, ensuring sufficient liquidity. While there is $200,000 in
+        short-term debt, liabilities remain controlled. Overall, the company is well-positioned for sustained growth and
+        financial stability. 
+
+    Balance Sheet
+
+    
+        
+            	Assets
+            	Value
+
+        
+            	Cash & Cash Equivalents
+            	$500,000
+
+        
+            	Accounts Receivable
+            	$300,000
+
+        
+            	Inventory
+            	$200,000
+
+        
+            	Property, Plant & Equipment
+            	$1,000,000
+
+        
+            	Intangible Assets
+            	$150,000
+
+    Liabilities
+
+    
+        
+            	Liability
+            	Value
+
+        
+            	Accounts Payable
+            	$100,000
+
+        
+            	Short-Term Debt
+            	$200,000
+
+        
+            	Long-Term Debt
+            	$500,000
+
+        
+            	Deferred Revenue
+            	$50,000
+
+        
+            	Accrued Expenses
+            	$75,000
+
+    Revenue
+
+    
+        
+            	Item
+            	Amount
+            	Percentage
+
+        
+            	Product Sales
+            	$1,200,000
+            	60%
+
+        
+            	Service Revenue
+            	$400,000
+            	20%
+
+        
+            	Consulting Services
+            	$300,000
+            	15%
+
+        
+            	Licensing Fees
+            	$50,000
+            	2.5%
+
+        
+            	Other Revenue
+            	$50,000
+            	2.5%
+
+    Expenses
+
+    
+        
+            	Item
+            	Amount
+            	Percentage
+
+        
+            	Cost of Goods Sold
+            	$600,000
+            	50%
+
+        
+            	Operating Expenses
+            	$300,000
+            	25%
+
+        
+            	Marketing
+            	$100,000
+            	8.3%
+
+        
+            	Research & Development
+            	$150,000
+            	12.5%
+
+        
+            	Other Expenses
+            	$50,000
+            	4.2%
+
+    Profit / Loss Projection
+
+    
+        
+            	Item
+            	Amount
+
+        
+            	Total Revenue
+            	$2,000,000
+
+        
+            	Total Expenses
+            	$1,200,000
+
+        
+            	Projected Profit
+            	$800,000
