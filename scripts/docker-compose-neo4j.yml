@@ -1,0 +1,33 @@
+networks:
+  genai-net:
+    name: genai-net
+    driver: bridge
+    
+    
+services:
+  neo4j:
+    image: neo4j:5.24
+    container_name: neo4j
+    restart: unless-stopped   
+    networks:
+      - genai-net    
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - ./neo4j/data:/data
+    environment:
+      NEO4J_apoc_export_file_enabled: "true"
+      NEO4J_apoc_import_file_enabled: "true"
+      NEO4J_apoc_import_file_use__neo4j__config: "true"
+      NEO4J_PLUGINS: '["apoc"]'
+  postgresql:
+    image: postgres:17
+    container_name: postgresql
+    restart: unless-stopped
+    networks:
+      - genai-net  
+    ports:
+      - "5460:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres

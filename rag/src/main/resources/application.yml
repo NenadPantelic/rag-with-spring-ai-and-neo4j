@@ -8,6 +8,26 @@ spring:
       chat:
         options:
           model: gpt-4o-mini
+      # autoconfigured bean with these configs, no need to do anything manually
+      embedding:
+        options:
+          model: text-embedding-3-small
+          encoding-format: float
+          dimensions: 1536 # the default value
+    vectorstore:
+      neo4j:
+        initialize-schema: true
+
+  r2dbc:
+    url: r2dbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: password
 
 
 logging:

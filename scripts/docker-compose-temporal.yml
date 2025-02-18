@@ -1,0 +1,51 @@
+networks:
+  genai-net:
+    name: genai-net
+    driver: bridge
+    external: true
+    
+    
+services:
+  temporal:
+    container_name: temporal
+    environment:
+      DB: postgres12
+      DB_PORT: 5432
+      POSTGRES_USER: postgres
+      POSTGRES_PWD: postgres
+      POSTGRES_SEEDS: postgresql
+      DYNAMIC_CONFIG_FILE_PATH: config/dynamicconfig/docker-temporal-development-sql.sql
+    image: temporalio/auto-setup:1.25.2
+    restart: unless-stopped  
+    networks:
+      - genai-net
+    ports:
+      - 7233:7233
+    volumes:
+      - ./temporal-config:/etc/temporal/config/dynamicconfig
+  temporal-admin-tools:
+    container_name: temporal-admin-tools
+    depends_on:
+      - temporal
+    environment:
+      - TEMPORAL_ADDRESS=temporal:7233
+      - TEMPORAL_CLI_ADDRESS=temporal:7233
+    image: temporalio/admin-tools:1.25.2-tctl-1.18.1-cli-1.1.1
+    restart: unless-stopped  
+    networks:
+      - genai-net
+    stdin_open: true
+    tty: true
+  temporal-ui:
+    container_name: temporal-ui
+    depends_on:
+      - temporal
+    environment:
+      TEMPORAL_ADDRESS: "temporal:7233"
+      TEMPORAL_CORS_ORIGINS: "http://localhost:3000"
+    image: temporalio/ui:2.31.2
+    restart: unless-stopped  
+    networks:
+      - genai-net
+    ports:
+      - 8888:8080

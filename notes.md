@@ -220,3 +220,99 @@
 
 - String templates -> `Give me {count} foods that made from ingredient.`
 - Spring AI advisors - called before and after interactions with the chat client
+
+## Vector RAG
+
+- computer core function is based on numbers
+- data must be converted into a numerical form -> use `embedding`
+- after the document splitting, we should perform the embedding
+- vector
+  - array of numbers
+  - represent different attributes of the data
+  - vector dimension
+- embedding
+  - vector representation of data
+  - data that has been transformed to X-dimensional vector
+
+#### Embedding model
+
+- use embedding model to create an embedding
+- provides a uniform way to create X-dimensional vector
+- embedding models are offered as a service (OpenAI, Google Gemini) or open-source (HuggingFace)
+- Vector space:
+  - describes some value (dimensions are features of some point)
+  - related items are positioned close to one another
+
+### Embedding for search
+
+- establish semantic relatioonships
+- basic search is using keywords for text matching
+  - returns matching documents if keywords match
+  - ignores meaning & semantics
+- an alternative option is similarity search, e.g. cosine search
+  - close points in vector space are more related, similar
+  - cosine between two vectors (two points) represents measure of similarity; e.g. cosine of two overlapping lines is 1
+    - `cos(14) = 0.97` - very similar meaning
+    - `cos(80) = 0.173` - unrelated meanings
+    - `cos(170) = -0.984` - opposite meanings
+
+### Vector similarity search
+
+- input: vector
+- output: list of similar vectors (based on distance calculation, e.g. cosine)
+- top K - top K vectors by similarity
+- storage
+  - store data with vector embedding
+  - vector database - specialized in indexing & storing the high-dimensional vectors (PostgreSQL with pgvector extension, Neo4j, Chroma, MongoDB)
+
+### Neo4j
+
+- a graph database where data is represented as graph database with nodes and relationships
+- Neo4j is queried using the Cypher query language
+- available at port 7474
+- default username/password - `neo4j/neo4j`
+- `docker compose -p neo4j -f docker-compose-neo4j.yml up -d`
+- see all indexes with `SHOW INDEXES`
+- Problem: duplicate context (when we have multiple duplicates of the same doc or very similar docs) - can blur the relevant context
+
+- How to handle duplicates?
+  - every document should have a unique key - e.g. a source path or URL
+  - calculate hash and store it in database - e.g. path + last modified time
+  - based on hash determine whether the document is already indexed
+
+## Indexing
+
+- heavy process that can fail
+- resource-intensive process
+- possible multiple steps
+- monitor failures
+- retry if needed
+- runs regularly
+
+### Temporal
+
+- an open-source workflow manager
+- port 8888
+- Building blocks of temporal framework
+  1. Workflow - business logic executed by an engine
+  - sequence of steps
+  - example - booking an airline ticket
+    - search for flight destination
+    - select the schedule
+    - enter personal information
+    - enter payment information
+    - review
+    - confirm
+    - receive a confirmation with a ticket
+  2. Activity
+  - individual work units in the workflow
+  - defined as programming language methods
+  - they usually include some interaction outside the node - sending emails, making network requests, calling APIs, calling DB
+  - prone to failure - network failure; solved by temporal's automatic activity retry
+  3. Temporal service - an engine managing the workflow
+  4. Worker
+  - executes an activity
+  - polls service and runs an activity
+  5. Web UI
+  - on port 8888
+  6. CLI available

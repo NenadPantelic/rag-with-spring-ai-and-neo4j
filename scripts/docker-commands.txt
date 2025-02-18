@@ -1,0 +1,6 @@
+# Neo4J Installation
+# Start
+docker compose -p neo4j -f docker-compose-neo4j.yml up -d
+
+# Stop
+docker compose -p neo4j -f docker-compose-neo4j.yml down

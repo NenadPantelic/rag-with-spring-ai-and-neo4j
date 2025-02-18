@@ -1,0 +1,43 @@
+logging:
+  pattern:
+    console: "[GenAI-RAG-Pipeline] %clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(---){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+
+server:
+  port: 8082
+
+spring:
+  application:
+    name: genai-rag-pipeline
+  main:
+    banner-mode: off
+    log-startup-info: false
+  ai:
+    openai:
+      api-key: ${OPENAI_API_KEY}
+      chat:
+        options:
+          model: gpt-4o-mini
+      embedding:
+        options:
+          model: text-embedding-3-small
+          encoding-format: float
+          dimensions: 1536
+    vectorstore:
+      neo4j:
+        index-name: spring-ai-document-index
+        initialize-schema: true
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: password
+  datasource:
+    url: jdbc:postgresql://localhost:5460/postgres
+    username: postgres
+    password: postgres
+  temporal:
+    namespace: default
+    connection:
+      target: 127.0.0.1:7233
+    workersAutoDiscovery:
+      packages: com.np.ai
