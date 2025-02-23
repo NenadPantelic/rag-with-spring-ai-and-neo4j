@@ -33,4 +33,4 @@ build/
 .vscode/
 
 
-scripts/neo4j
+scripts/neo4j/data

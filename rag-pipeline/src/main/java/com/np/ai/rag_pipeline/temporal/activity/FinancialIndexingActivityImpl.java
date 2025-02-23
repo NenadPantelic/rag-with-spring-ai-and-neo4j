@@ -1,6 +1,6 @@
 package com.np.ai.rag_pipeline.temporal.activity;
 
-import com.np.ai.rag_pipeline.constant.TemporalTaskQueues;
+import com.np.ai.rag_pipeline.temporal.constant.TemporalTaskQueues;
 import com.np.ai.rag_pipeline.service.RAGVectorIndexingService;
 import io.temporal.spring.boot.ActivityImpl;
 import org.springframework.ai.document.Document;

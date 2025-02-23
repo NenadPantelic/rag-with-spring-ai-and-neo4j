@@ -316,3 +316,143 @@
   5. Web UI
   - on port 8888
   6. CLI available
+
+## Knowledge graph
+
+- graph
+  - nodes and their relations
+  - node = vertice
+  - relationship = edge
+- usually used to represent a network (social network, information network, communication network, transportation networks)
+- types:
+  - `(uni)directed` - following relationship on IG and `bidirected` - friendship on FB
+  - `weigthed` - the importance or magnitude of the relationship and `unweighted` - all edges/relationships are equally important
+  - `monopartite` - all nodes are of the same type (e.g. computers in a computer network graph) and bipartite - two types of nodes, e.g. users watch movies graph
+  - `simple` - there is only one relationship between nodes and `multigraph` - multiple relationships between nodes, even a relationship of the node with itself
+- `knowledge graph` - a graph used to represent structred knowledge with semantic context
+- semantic - each node and edge has meaningful attribute types and constraints; the graph provides meaningful information about those entities
+- Example - we have two nodes and a relationship between them:
+  - Node 1
+    - Type: EMPLOYEE
+    - Attributes:
+      - full name: Diana
+      - nationality: Indonesian
+      - birth date: 27/07/2002
+  - Node 2
+    - Type: OFFICE
+    - Attributes:
+      - contry: Singapore
+      - address: 123 Alpha street
+    - Constraints:
+      - address must be a valid physical location
+  - Relationship
+    - Type: WORKS_AT
+    - Attributes:
+      - works since 12/11/2024
+      - position: Marketing staff
+- Knowledge graphs are used in AI, search engines and NLP to provide context, answer questions and infer information
+- E.g. we have three nodes
+  - Employee/John
+  - Company/Alpha tech
+  - Business sector/Financial sector
+- If John works for Alpha tech which is in Financial sector, that means that John works in Financial sector
+- In reality, graphs have many nodes. We can put nodes with similarity as one group - graph clustering. This technique is very useful for discovering patterns such as communities in social networks or related diseas in health network. Generally used to discover patterns and outliers.
+
+#### Building knowledge graph
+
+- identify & extract from data sources (structured/unstructured)
+- stuctured data (CSV, JSON, XML, Protocol buffers, AVRO format...) is simpler
+  - items already machine-parseable
+  - there is still complexity in recognizing which value is a node candidate
+- unstructured data (text, PDF, excel...) os harder
+  - different languages - multiple languages in the same document, idioms, domain specific language and jargon (lawyers, tech, medicine...)
+  - typos, mispelling
+
+#### RAG + Knowledge graph
+
+- RAG retrieves relevant information
+- vector database helps, but it is not perfect
+  - similarity search helps, but it does not guarantee relevant documents will be returned
+  - more documents -> larger dataset -> more likely that less relevant/irrelevant documents will be returned
+- Techniques to increase the precision
+  - Chunk size: big chunk (better context, more noise), small chunk (worse context, less noise) -> we can summarize the whole document and add it to every chunk, then we can reduce the chunk size to reduce the noise, but still the context would be rich enough
+  - we can add metadata (keywords) to each chunk (each chunk can have its metadata then)
+- KG and retrieval
+  - increases the retrieval precision
+  - hard to create and maintain the knowledge graph; also querying the relevant information is not easy
+  - benefits of using the knowledge graph
+    - specialized graph database with high flexibility (vs rigid RDBMS)
+    - unified view from heterogeneous sources (vs structured data only from RDBMS)
+    - relationship has a semantic meaning to enrich the context (as opposed to foreign key without semantic meaning)
+
+### Building knowledge graph
+
+- Scenario
+  - social media network called alphabuzz
+    - user can follow another user
+    - user can publish buzz (text, image...)
+    - user can repost another user's buzz
+- Questions:
+
+  1. What are the possible node types?
+  2. What are the possible properties of each type of node?
+  3. Which node requires a unique identifier as a property?
+  4. What are the possible relationship types?
+  5. Does the relationship require any semantic value?
+
+- Nodes:
+
+  - User
+    - id (unique): str
+    - username: str
+    - displayName: str
+    - registeredAt: date
+  - Buzz
+    - id (unique): str
+    - htmlContent: str
+    - createdAt (timestamp)
+
+- Relationships:
+
+  - follow (user -> user) with attribute(s): since (date)
+  - publish (user -> buzz)
+  - like (user -> buzz) with attribute(s): likedAt (timestamp)
+  - repost (user -> buzz) with attribute(s): republishedAt (timestamp)
+
+- We can combine contexts from both vector store and knowledge graph
+
+```
+Use the given context to answer the question.
+
+<context>
+{customContextFromVectorStore}
+<context>
+
+
+<knowledge-graph-context>
+{customContextFromKnowledgeGraph}
+<knowledge-graph-context>
+
+<question>
+{question}
+<question>
+```
+
+- To generate Neo4j query we should use the following prompt:
+
+```
+Given this Neo4j schema.
+
+<schema>
+{Nodes, edges, properties, and explanation as needed}
+<schema>
+
+<question>
+Generate cypher query based on this question:
+{question}
+<question>
+```
+
+- Working with unstructured data
+  - Python Langchain
+  - Neo4j Knowledge graph builder - web app that allows the creation of the knowledge graph from pdfs, blog posts, youtube videos etc. (`llm-graph-builder.neo4jlabs.com`)

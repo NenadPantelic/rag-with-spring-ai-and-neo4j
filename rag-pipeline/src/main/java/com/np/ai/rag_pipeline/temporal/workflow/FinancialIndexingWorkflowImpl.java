@@ -1,6 +1,6 @@
 package com.np.ai.rag_pipeline.temporal.workflow;
 
-import com.np.ai.rag_pipeline.constant.TemporalTaskQueues;
+import com.np.ai.rag_pipeline.temporal.constant.TemporalTaskQueues;
 import com.np.ai.rag_pipeline.temporal.activity.FinancialIndexingActivity;
 import com.np.ai.rag_pipeline.temporal.workflow.input.IndexingWorkflowInput;
 import io.temporal.activity.ActivityOptions;

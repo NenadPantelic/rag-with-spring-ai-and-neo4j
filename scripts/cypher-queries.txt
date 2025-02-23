@@ -1,0 +1,46 @@
+# Return node with type 'Document', maximum 25 items
+MATCH(d:Document) RETURN d LIMIT 25
+
+
+# See the size of Document.embedding array
+MATCH(d:Document) RETURN SIZE(d.embedding) AS embedding_size
+
+
+# Find how many node with type 'Document'
+MATCH(d:Document) RETURN COUNT(d) AS document_count
+
+
+# Find Document where the metadata.custom_keywords contains particular string
+MATCH (d:Document)
+WHERE 'financial-statement' IN d.`metadata.custom_keywords`
+RETURN d
+
+
+# Delete all node with type 'Document'
+MATCH (d:Document) DETACH DELETE d
+
+
+# Delete all nodes and relationships
+MATCH (n) DETACH DELETE n
+
+
+# Show all Users, Buzz, and their relationships
+MATCH (u:User)-[r]->(b:Buzz) RETURN u, r, b
+
+
+# Get all nodes, along with any relationships they have and the nodes at the other end of those relationships. 
+# If a node does not have any relationships, it will still be included in the results.
+MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m
+
+
+# See the relationship for all 'Buzz' maximum 50 data
+MATCH (b:Buzz) OPTIONAL MATCH (b)-[r]->(c) RETURN b, r, c LIMIT 50
+
+
+# See 10 username who publishes most Buzz
+MATCH (u:User)-[:PUBLISH]->(b:Buzz) RETURN u.username AS username, COUNT(b) AS buzzCount ORDER BY buzzCount DESC LIMIT 10
+
+
+# See 10 most popular Buzz tags
+MATCH (b:Buzz)-[:HAS_TAG]->(t:Tag) RETURN t.text AS tagText, COUNT(b) AS count ORDER BY count DESC LIMIT 10
+
